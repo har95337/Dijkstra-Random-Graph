@@ -11,11 +11,11 @@ Graph::Graph(int vert_count, double density)
 {
 	Graph::vert_count = vert_count;
 
-	matrix = vector<vector<int>> (vert_count, vector<int>(vert_count));
+	matrix = vector<vector<double>> (vert_count, vector<double>(vert_count));
 	
 	default_random_engine generator;
 	uniform_real_distribution<double> density_distribution(0.0,1.0);
-	uniform_int_distribution<int> weight_distribution(0,10);
+	uniform_real_distribution<double> weight_distribution(0.0,10.0);
 	
 	for(int i = 0; i < vert_count; ++i)
 	{
@@ -24,7 +24,7 @@ Graph::Graph(int vert_count, double density)
 			double prob = density_distribution(generator);
 			if((prob <= density) && (i != j))
 			{
-				int new_weight = weight_distribution(generator);
+				double new_weight = weight_distribution(generator);
 				add_edge(i, j, new_weight);
 			}
 		}
@@ -45,7 +45,7 @@ vector<int> Graph::neighbors(int x)
 	return container;
 }
 
-inline void Graph::add_edge(int x, int y, int weight)
+inline void Graph::add_edge(int x, int y, double weight)
 {
 	matrix[x][y] = matrix[y][x] = weight;
 	edge_count++;

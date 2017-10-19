@@ -12,20 +12,20 @@ using namespace std;
 
 vector<int> Shortest::dijkstra(Graph &graph, int source, int target)
 {
-	vector<int> dist(graph.V());
-	dist[source] = 0;
+	vector<double> dist(graph.V());
+	dist[source] = 0.0;
 
 	vector<int> prev(graph.V(), -1);
 	vector<int> S;
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+	priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>>> pq;
 
-	pq.push(make_pair(0, source));
+	pq.push(make_pair(0.0, source));
 
 	for (int v = 0; v < graph.V(); v++)
 	{
 		if (v != source) 
 		{
-			dist[v] = INT_MAX;
+			dist[v] = DBL_MAX;
 		}
 			pq.push(make_pair(dist[v], v));
 	}
@@ -51,7 +51,7 @@ vector<int> Shortest::dijkstra(Graph &graph, int source, int target)
 
 		for (auto v : neighbors)
 		{
-			int alt = dist[u] + graph.edge_weight(u, v);
+			double alt = dist[u] + graph.edge_weight(u, v);
 			bool visited = (find(prev.begin(), prev.end(), v) != prev.end()); 
 			if (alt < dist[v] && !visited)
 			{
