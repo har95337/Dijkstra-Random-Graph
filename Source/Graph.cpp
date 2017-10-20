@@ -2,7 +2,6 @@
 #include <vector>
 #include <cstdlib>
 #include <random>
-#include <algorithm>
 
 #include "Graph.hpp"
 
@@ -91,4 +90,18 @@ void Graph::print_neighbors()
 		}
 		cout << endl;
 	}
+}
+
+int Graph::number_neighbors()
+{
+	int num_neighbors = 0;
+	for (int p = 0; p < matrix.size(); p++)
+	{
+		auto neighborhood = neighbors(p);
+		for (auto i : neighborhood)
+		{
+			num_neighbors++;
+		}
+	}
+	return num_neighbors;
 }

@@ -24,6 +24,8 @@ class Graph
 		void print_Graph();
 		
 		void print_neighbors();
+
+		int number_neighbors();
 			
 		int V() {return vert_count;};
 			
