@@ -22,18 +22,17 @@ Graph::Graph(int vert_count, double density)
 	uniform_real_distribution<double> density_distribution(0.0,1.0);
 	uniform_real_distribution<double> weight_distribution(1.0,10.0);
 
-	int max_neighbors = (vert_count * density) / 2;
+	double max_neighbors = (vert_count * density);
 	for(int i = 0; i < vert_count; ++i)
 	{
-		int neighbors = 0;
 		for(int j = 0; j < vert_count; ++j)
 		{
 			double prob = density_distribution(generator);
-			if((prob < density) && (i != j) && (neighbors <= max_neighbors))
+			vector<int> neighborhood = neighbors(j);
+			if((prob < density) && (i != j) && ( neighborhood.size() <= max_neighbors))
 			{
 				double new_weight = weight_distribution(generator);
 				add_edge(i, j, new_weight);
-				neighbors++;
 			}
 		}
 	}
@@ -55,8 +54,12 @@ vector<int> Graph::neighbors(int x)
 
 inline void Graph::add_edge(int x, int y, double weight)
 {
-	matrix[x][y] = matrix[y][x] = weight;
-	edge_count++;
+	if (matrix[x][y] == 0 && matrix[y][x] == 0)
+	{
+		matrix[x][y] = matrix[y][x] = weight;
+		edge_count++;
+	}
+	return;
 }
 
 inline bool Graph::adjacent(int x, int y)
