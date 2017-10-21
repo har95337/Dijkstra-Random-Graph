@@ -6,6 +6,12 @@
 #include "Graph.hpp"
 
 using namespace std;
+Graph::Graph(int vert_count)
+{
+	Graph::vert_count = vert_count;
+	matrix = vector<vector<double>>(vert_count, vector<double>(vert_count));
+}
+
 Graph::Graph(int vert_count, double density)
 {
 	Graph::vert_count = vert_count;
@@ -14,17 +20,20 @@ Graph::Graph(int vert_count, double density)
 	
 	default_random_engine generator;
 	uniform_real_distribution<double> density_distribution(0.0,1.0);
-	uniform_real_distribution<double> weight_distribution(0.0,10.0);
-	
+	uniform_real_distribution<double> weight_distribution(1.0,10.0);
+
+	int max_neighbors = (vert_count * density) / 2;
 	for(int i = 0; i < vert_count; ++i)
 	{
+		int neighbors = 0;
 		for(int j = 0; j < vert_count; ++j)
 		{
 			double prob = density_distribution(generator);
-			if((prob <= density) && (i != j))
+			if((prob < density) && (i != j) && (neighbors <= max_neighbors))
 			{
 				double new_weight = weight_distribution(generator);
 				add_edge(i, j, new_weight);
+				neighbors++;
 			}
 		}
 	}

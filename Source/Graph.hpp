@@ -9,6 +9,8 @@ class Graph
 	public:
 		vector<vector<double>> matrix;
 		
+		Graph(int vert_count);
+
 		Graph(int vert_count, double density);
 
 		vector<int> neighbors(int x);
@@ -27,9 +29,9 @@ class Graph
 
 		int number_neighbors();
 			
-		int V() {return vert_count;};
+		int V() { return vert_count; };
 			
-		int E() {return edge_count;};
+		int E() { return edge_count; };
 		
 	private:
 		const int max_weight = 10;
