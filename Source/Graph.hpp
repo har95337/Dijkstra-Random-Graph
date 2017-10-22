@@ -7,7 +7,6 @@ using namespace std;
 class Graph
 {
 	public:
-		vector<vector<double>> matrix;
 		
 		Graph(int vert_count);
 
@@ -34,6 +33,8 @@ class Graph
 		int E() { return edge_count; };
 		
 	private:
+		vector<vector<double>> matrix;
+
 		const int max_weight = 10;
 		
 		int vert_count;

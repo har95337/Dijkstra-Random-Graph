@@ -17,6 +17,7 @@ vector<int> Shortest::dijkstra(Graph &graph, int source, int target)
 
 	vector<int> prev(graph.V(), -1);
 	vector<int> S;
+	// This priority queue tracks (weight, index) and uses the comparison operator greater to make a min heap
 	priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>>> pq;
 
 	pq.push(make_pair(0.0, source));
@@ -61,7 +62,6 @@ vector<int> Shortest::dijkstra(Graph &graph, int source, int target)
 			}
 		}
 	}
-
 	reverse(S.begin(), S.end());
 	return S;
 }

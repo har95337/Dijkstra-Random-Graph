@@ -8,6 +8,7 @@
 using namespace std;
 Graph::Graph(int vert_count)
 {
+	// This is a simple Graph constructor made for manual graph creation
 	Graph::vert_count = vert_count;
 	matrix = vector<vector<double>>(vert_count, vector<double>(vert_count));
 }
@@ -18,10 +19,12 @@ Graph::Graph(int vert_count, double density)
 
 	matrix = vector<vector<double>> (vert_count, vector<double>(vert_count));
 	
+	// Initialize and set ranges for random
 	default_random_engine generator;
 	uniform_real_distribution<double> density_distribution(0.0,1.0);
 	uniform_real_distribution<double> weight_distribution(1.0,10.0);
 
+	// Max neighbors limits the number of neighbors to be created
 	double max_neighbors = (vert_count * density);
 	for(int i = 0; i < vert_count; ++i)
 	{
@@ -29,6 +32,9 @@ Graph::Graph(int vert_count, double density)
 		{
 			double prob = density_distribution(generator);
 			vector<int> neighborhood = neighbors(j);
+
+			// Here create an edge if probability passes and making sure we avoid self connected nodes
+			// Neighborhood returns a vector list of all neighbors of a certain row and we want to check it doesn't exceed max_neighbors
 			if((prob < density) && (i != j) && ( neighborhood.size() <= max_neighbors))
 			{
 				double new_weight = weight_distribution(generator);
@@ -42,11 +48,14 @@ vector<int> Graph::neighbors(int x)
 {
 	vector<int> container(matrix.size());
 	
+	// Since each index is a node check the indexes that have edges and if there is an edge there add that index to container
 	for(int i = 0; i < matrix.size(); i++)
 	{
+		// Fill empty spaces in the matrix with -1 so that we can erase those indexes
 		if(matrix[x][i] != 0.0) container[i] = i;
 		else container[i] = -1;
 	}
+	// These 2 lines delete all the -1s in container to make a vector that only has neighbors
 	container.erase(remove(container.begin(), container.end(), -1), container.end());
 	container.shrink_to_fit();
 	return container;
